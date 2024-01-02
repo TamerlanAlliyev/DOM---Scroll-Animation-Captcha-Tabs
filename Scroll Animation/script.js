@@ -12,11 +12,9 @@ const scrollAnimation = () => {
         if (distanceFromTop < triggerPoint) {
             animationItem.style.opacity = 1;
             animationItem.style.transform = "translateY(0)";
-            animationItem.classList.remove("opacity-0");
         } else {
             animationItem.style.opacity = 0;
             animationItem.style.transform = "translateY(50px)";
-            animationItem.classList.add("opacity-0");
         }
     });
 };
