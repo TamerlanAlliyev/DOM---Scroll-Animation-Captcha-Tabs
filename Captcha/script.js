@@ -14,40 +14,45 @@ let chars = [];
 let captcha = "";
 
 const getRandomChar = () => {
-    const mixedString = numbers.concat(upperCaseLetters, lowerCaseLetters)
-
+    const mixedString = numbers.concat(upperCaseLetters, lowerCaseLetters);
     return mixedString[Math.floor(Math.random() * mixedString.length)];
-}
+};
 
 const generateRandomCaptcha = () => {
     for (let i = 0; i < 6; i++) {
         captcha += getRandomChar();
     }
     captchaText.textContent = captcha;
-}
+};
 
-generateRandomCaptcha()
+generateRandomCaptcha();
 
-input.addEventListener('input', (event) => {
-    const givenValue = event.target.value;
+const checkCaptcha = () => {
+    const givenValue = input.value;
 
     if (givenValue === captcha) {
-        input.classList.add("ring-green-600")
-    }else{
-        input.classList.remove("ring-green-600")
-    }
-
-    if (givenValue !== captcha && givenValue.length === 6) {
-        input.classList.add("ring-red-600")
+        input.classList.remove("ring-red-600");
+        input.classList.add("ring-green-600");
+        btn.disabled = false;
+        btn.classList.add("bg-green-500");
+        btn.classList.remove("bg-gray-300");
+        btn.classList.remove("cursor-not-allowed");
     } else {
-        input.classList.remove("ring-red-600")
+        input.classList.remove("ring-green-600");
+        input.classList.add("ring-red-600");
+        btn.disabled = true;
+        btn.classList.remove("bg-green-500");
+        btn.classList.add("bg-gray-300");
     }
-})
+};
 
-input.addEventListener('keypress', (event) => {
-    const givenValue = event.target.value;
+input.addEventListener("input", checkCaptcha);
 
-    if (givenValue.length === 6) {
-        event.preventDefault();
+btn.addEventListener("click", () => {
+    if (input.value === captcha) {
+        alert("Captcha is correct!"); 
+        input.value = "";
+        generateRandomCaptcha();
+        checkCaptcha();
     }
-})
+});
